@@ -75,7 +75,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
           <ul class="navbar-nav  justify-content-start">
-            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line bg-white"></i>
@@ -134,7 +134,7 @@
                     <thead align="center">
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-25">Foto</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kategori</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Menu</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
@@ -158,10 +158,10 @@
                           <tbody align="center">
                             <tr style="border-bottom: 1px solid lightgrey;">
                               <td><?= $no++; ?></td>
-                              <td><img src="<?= base_url() ?>assets/img/upload/menu/<?= $mnu->foto ?>" class="w-25 h-25"></td>
+                              <td><img src="<?= base_url() ?>assets/img/upload/menu/<?= $mnu->foto ?>" class="img-fluid p-3"></td>
                               <td><?= $mnu->kategori ?></td>
                               <td><?= $mnu->menu ?></td>
-                              <td><?= $mnu->harga ?></td>
+                              <td>Rp. <?= $mnu->harga ?></td>
                               <td><?= anchor('pemilik/menu/ubah/' . $mnu->id_menu, '<div class="btn btn-success btn-m"><i class="fa fa-edit"></i></div>') ?></td>
                               <td onclick="javasript: return confirm('Anda Yakin Ingin Menghapus?')"><?= anchor('pemilik/menu/hapus/' . $mnu->id_menu, '<div class="btn btn-danger btn-m"><i class="fa fa-trash"></i></div>') ?></td>
                             </tr>

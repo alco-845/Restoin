@@ -12,7 +12,7 @@ class Admin extends CI_Controller
     public function index()
     {
         $config['base_url'] = site_url('super_admin/admin/index');
-        $config['total_rows'] = $this->model_admin->count_one('admin', 'level', 'Admin');
+        $config['total_rows'] = $this->model_admin->count_one('admin', 'level', 'Master');
         $config['per_page'] = 3;
         $config["uri_segment"] = 4;
 
@@ -37,10 +37,10 @@ class Admin extends CI_Controller
 
         $search = $this->input->post('search');
         if ($search) {
-            $data['admin'] = $this->model_admin->get_keyword('admin', 'level', 'Admin', 'username', $search, 'username', 'asc');
+            $data['admin'] = $this->model_admin->get_keyword('admin', 'level', 'Master', 'username', $search, 'username', 'asc');
             $data['pagination'] = "";
         } else {
-            $data['admin'] = $this->model_admin->get_where_ordered('admin', 'level', 'Admin', 'username', 'asc', $config["per_page"], $data['page']);
+            $data['admin'] = $this->model_admin->get_where_ordered('admin', 'level', 'Master', 'username', 'asc', $config["per_page"], $data['page']);
             $data['pagination'] = $this->pagination->create_links();
         }
 
@@ -87,7 +87,7 @@ class Admin extends CI_Controller
                     'username' => $username,
                     'email' => $email,
                     'password' => $pass,
-                    'level' => 'Admin',
+                    'level' => 'Master',
                     'aktif' => 1
                 );
 
@@ -172,8 +172,7 @@ class Admin extends CI_Controller
                     'username' => $username,
                     'email' => $email,
                     'password' => $pass,
-                    'level' => 'Admin',
-                    'aktif' => 1
+                    'level' => 'Master'
                 );
 
                 if ($id == $this->session->id_admin) {
@@ -181,8 +180,7 @@ class Admin extends CI_Controller
                         array(
                             'id_admin' => $id,
                             'username' => $username,
-                            'email' => $email,
-                            'level' => 'Admin'
+                            'level' => 'Master'
                         )
                     );
                 }
@@ -207,8 +205,7 @@ class Admin extends CI_Controller
                     'username' => $username,
                     'email' => $email,
                     'password' => $pass,
-                    'level' => 'Admin',
-                    'aktif' => 1
+                    'level' => 'Master'
                 );
 
                 if ($id == $this->session->id_admin) {
@@ -216,8 +213,7 @@ class Admin extends CI_Controller
                         array(
                             'id_admin' => $id,
                             'username' => $username,
-                            'email' => $email,
-                            'level' => 'Admin'
+                            'level' => 'Master'
                         )
                     );
                 }

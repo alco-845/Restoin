@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 18, 2022 at 10:48 PM
+-- Generation Time: May 24, 2022 at 01:04 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -42,10 +42,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `id_resto`, `username`, `email`, `password`, `level`, `aktif`) VALUES
-(4, 0, 'admin', 'admin1abell@gmail.com', 'admin', 'Admin', 1),
-(6, 0, 't', 't@gmail.com', 't', 'Admin', 1),
-(14, 18, 'x', 'x@gmail.com', 'x', 'Master', 1),
-(15, 19, 'test', 'test@gmail.com', 't', 'Master', 1);
+(1, 0, 'master', 'master@gmail.com', 'master', 'Master', 1),
+(3, 2, 'Restoku', 'restoku@gmail.com', 'restoku', 'Admin', 1);
 
 -- --------------------------------------------------------
 
@@ -61,6 +59,14 @@ CREATE TABLE `detail_penjualan` (
   `subtotal` decimal(11,0) NOT NULL,
   `status` enum('Proses','Selesai','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detail_penjualan`
+--
+
+INSERT INTO `detail_penjualan` (`id_detail`, `id_penjualan`, `id_menu`, `jumlah`, `subtotal`, `status`) VALUES
+(1, 1, 3, 2, '4000', 'Selesai'),
+(2, 1, 1, 1, '10000', 'Selesai');
 
 -- --------------------------------------------------------
 
@@ -92,19 +98,21 @@ CREATE TABLE `laporan_penjualan` (
 `id_penjualan` int(11)
 ,`id_resto` int(5)
 ,`id_meja` int(11)
-,`no_faktur` int(11)
+,`no_faktur` varchar(10)
 ,`pelanggan` varchar(100)
-,`tanggal` datetime
+,`tanggal` date
 ,`total` decimal(11,0)
 ,`bayar` decimal(11,0)
 ,`kembali` decimal(11,0)
 ,`metode_pembayaran` varchar(100)
 ,`status` enum('Baru order','Sudah dibayar','Selesai','')
-,`id_detail` int(11)
-,`id_menu` int(11)
-,`jumlah` int(11)
-,`subtotal` decimal(11,0)
-,`status_pesanan` enum('Proses','Selesai','')
+,`nama_pemilik` varchar(100)
+,`nama` varchar(100)
+,`logo` varchar(100)
+,`alamat` text
+,`qrcode` varchar(100)
+,`nomer_meja` varchar(10)
+,`status_meja` enum('Tersedia','Dipakai','')
 );
 
 -- --------------------------------------------------------
@@ -116,7 +124,7 @@ CREATE TABLE `laporan_penjualan` (
 CREATE TABLE `meja` (
   `id_meja` int(11) NOT NULL,
   `id_resto` int(5) NOT NULL,
-  `nomer` varchar(5) NOT NULL,
+  `nomer` varchar(10) NOT NULL,
   `status` enum('Tersedia','Dipakai','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -125,7 +133,8 @@ CREATE TABLE `meja` (
 --
 
 INSERT INTO `meja` (`id_meja`, `id_resto`, `nomer`, `status`) VALUES
-(5, 19, 'no 2', 'Tersedia');
+(1, 2, 'Meja 1 ', 'Tersedia'),
+(2, 2, 'Meja 2', 'Tersedia');
 
 -- --------------------------------------------------------
 
@@ -147,9 +156,8 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id_menu`, `id_resto`, `kategori`, `menu`, `harga`, `foto`) VALUES
-(3, 19, 'Minuman', 'Aqu', '10000', 'Screenshot_2022-04-16_10-42-28.png'),
-(7, 19, 'Minuman', '1', '2', '1652867455Screenshot_2021-03-04_07-55-47.png'),
-(9, 19, 'Snack', 'Aqus', '20000', '19_1652895663_Screenshot_2021-03-04_07-55-47.png');
+(1, 2, 'Makanan', 'Kue mini', '10000', 'default.jpg'),
+(3, 2, 'Minuman', 'Es teh', '2000', '2_2022-05-24_Screenshot_2021-03-04_07-55-47.png');
 
 -- --------------------------------------------------------
 
@@ -167,6 +175,13 @@ CREATE TABLE `pegawai` (
   `notelp` varchar(100) NOT NULL,
   `aktif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pegawai`
+--
+
+INSERT INTO `pegawai` (`id_pegawai`, `id_resto`, `username`, `password`, `nama`, `alamat`, `notelp`, `aktif`) VALUES
+(1, 2, 'alex', 'alex', 'Alex', 'Alex rumah', '0852', 1);
 
 -- --------------------------------------------------------
 
@@ -199,15 +214,22 @@ CREATE TABLE `penjualan` (
   `id_penjualan` int(11) NOT NULL,
   `id_resto` int(5) NOT NULL,
   `id_meja` int(11) NOT NULL,
-  `no_faktur` int(11) NOT NULL,
+  `no_faktur` varchar(10) NOT NULL,
   `pelanggan` varchar(100) NOT NULL,
-  `tanggal` datetime NOT NULL,
-  `total` decimal(11,0) NOT NULL,
-  `bayar` decimal(11,0) NOT NULL,
-  `kembali` decimal(11,0) NOT NULL,
+  `tanggal` date NOT NULL,
+  `total` decimal(11,0) NOT NULL DEFAULT 0,
+  `bayar` decimal(11,0) NOT NULL DEFAULT 0,
+  `kembali` decimal(11,0) NOT NULL DEFAULT 0,
   `metode_pembayaran` varchar(100) NOT NULL,
   `status` enum('Baru order','Sudah dibayar','Selesai','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id_penjualan`, `id_resto`, `id_meja`, `no_faktur`, `pelanggan`, `tanggal`, `total`, `bayar`, `kembali`, `metode_pembayaran`, `status`) VALUES
+(1, 2, 2, '00000001', 'Simon', '2022-05-24', '14000', '14000', '0', 'Bank Transfer', 'Selesai');
 
 -- --------------------------------------------------------
 
@@ -229,13 +251,8 @@ CREATE TABLE `resto` (
 --
 
 INSERT INTO `resto` (`id_resto`, `nama_pemilik`, `nama`, `logo`, `alamat`, `qrcode`) VALUES
-(0, '', 'admin', 'admin', 'admin', ''),
-(3, '', 'Abell Cafe', 'abel.jpg', 'Telang Indah,Kamal', ''),
-(4, '', 'Kopi Joy', 'joy.jpg', 'Telang Indah,Bangkalan', ''),
-(6, '', 'Yoka Bento', 'yokabento.jpg', 'Telang, Bangkalan', ''),
-(7, '', 'OT cafe', 'ot', 'Telang Indah', ''),
-(18, 'xx', 'x rest', 'Screenshot_2022-04-16_10-42-38.png', 'x alamat', 'resto_18.png'),
-(19, 'test nama', 'test resto', 'Screenshot_2021-03-04_07-55-47.png', 'test alamat', 'resto_19.png');
+(0, 'master', 'master', 'master', 'master', 'master'),
+(2, 'Restoku official', 'Restoku dirumah', 'default.jpg', 'Jalanin aja', 'resto_2.png');
 
 -- --------------------------------------------------------
 
@@ -253,7 +270,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `laporan_penjualan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_penjualan`  AS SELECT `penjualan`.`id_penjualan` AS `id_penjualan`, `penjualan`.`id_resto` AS `id_resto`, `penjualan`.`id_meja` AS `id_meja`, `penjualan`.`no_faktur` AS `no_faktur`, `penjualan`.`pelanggan` AS `pelanggan`, `penjualan`.`tanggal` AS `tanggal`, `penjualan`.`total` AS `total`, `penjualan`.`bayar` AS `bayar`, `penjualan`.`kembali` AS `kembali`, `penjualan`.`metode_pembayaran` AS `metode_pembayaran`, `penjualan`.`status` AS `status`, `detail_penjualan`.`id_detail` AS `id_detail`, `detail_penjualan`.`id_menu` AS `id_menu`, `detail_penjualan`.`jumlah` AS `jumlah`, `detail_penjualan`.`subtotal` AS `subtotal`, `detail_penjualan`.`status` AS `status_pesanan` FROM (`penjualan` join `detail_penjualan` on(`penjualan`.`id_penjualan` = `detail_penjualan`.`id_penjualan`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_penjualan`  AS SELECT `penjualan`.`id_penjualan` AS `id_penjualan`, `penjualan`.`id_resto` AS `id_resto`, `penjualan`.`id_meja` AS `id_meja`, `penjualan`.`no_faktur` AS `no_faktur`, `penjualan`.`pelanggan` AS `pelanggan`, `penjualan`.`tanggal` AS `tanggal`, `penjualan`.`total` AS `total`, `penjualan`.`bayar` AS `bayar`, `penjualan`.`kembali` AS `kembali`, `penjualan`.`metode_pembayaran` AS `metode_pembayaran`, `penjualan`.`status` AS `status`, `resto`.`nama_pemilik` AS `nama_pemilik`, `resto`.`nama` AS `nama`, `resto`.`logo` AS `logo`, `resto`.`alamat` AS `alamat`, `resto`.`qrcode` AS `qrcode`, `meja`.`nomer` AS `nomer_meja`, `meja`.`status` AS `status_meja` FROM ((`penjualan` join `resto` on(`penjualan`.`id_resto` = `resto`.`id_resto`)) join `meja` on(`penjualan`.`id_meja` = `meja`.`id_meja`)) ;
 
 -- --------------------------------------------------------
 
@@ -262,7 +279,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `pemilik`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pemilik`  AS SELECT `admin`.`id_admin` AS `id_admin`, `admin`.`id_resto` AS `id_resto`, `admin`.`username` AS `username`, `admin`.`email` AS `email`, `admin`.`password` AS `password`, `admin`.`level` AS `level`, `admin`.`aktif` AS `aktif`, `resto`.`nama_pemilik` AS `nama_pemilik`, `resto`.`nama` AS `nama`, `resto`.`logo` AS `logo`, `resto`.`alamat` AS `alamat`, `resto`.`qrcode` AS `qrcode` FROM (`admin` join `resto` on(`admin`.`id_resto` = `resto`.`id_resto`)) WHERE `admin`.`level` = 'Master' ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pemilik`  AS SELECT `admin`.`id_admin` AS `id_admin`, `admin`.`id_resto` AS `id_resto`, `admin`.`username` AS `username`, `admin`.`email` AS `email`, `admin`.`password` AS `password`, `admin`.`level` AS `level`, `admin`.`aktif` AS `aktif`, `resto`.`nama_pemilik` AS `nama_pemilik`, `resto`.`nama` AS `nama`, `resto`.`logo` AS `logo`, `resto`.`alamat` AS `alamat`, `resto`.`qrcode` AS `qrcode` FROM (`admin` join `resto` on(`admin`.`id_resto` = `resto`.`id_resto`)) WHERE `admin`.`level` = 'Admin' ;
 
 --
 -- Indexes for dumped tables
@@ -326,43 +343,43 @@ ALTER TABLE `resto`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `detail_penjualan`
 --
 ALTER TABLE `detail_penjualan`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `meja`
 --
 ALTER TABLE `meja`
-  MODIFY `id_meja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_meja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `resto`
 --
 ALTER TABLE `resto`
-  MODIFY `id_resto` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_resto` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

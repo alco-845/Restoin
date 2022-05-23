@@ -13,6 +13,11 @@ class Model_admin extends CI_Model
         return $this->db->where($col, $val)->count_all_results($table);
     }
 
+    public function count_two($table, $col1, $val1, $col2, $val2)
+    {
+        return $this->db->where($col1, $val1)->where($col2, $val2)->count_all_results($table);
+    }
+
     public function select($table, $limit = null, $start = null)
     {
         return $this->db->get($table, $limit, $start)->result();
@@ -51,6 +56,17 @@ class Model_admin extends CI_Model
         }
     }
 
+    public function get_one_ordered($table, $where, $cending)
+    {
+        $result = $this->db->order_by($where, $cending)
+            ->get($table);
+        if ($result->num_rows() > 0) {
+            return $result->row();
+        } else {
+            return array();
+        }
+    }
+
     public function get_where_ordered($table, $where, $val, $col, $cending, $limit = null, $start = null)
     {
         $this->db->from($table);
@@ -61,11 +77,11 @@ class Model_admin extends CI_Model
         return $query->result();
     }
 
-    public function get_ordered($table, $where, $cending, $limit = null, $start = null)
+    public function get_ordered($table, $where, $cending, $start = null, $end = null)
     {
         $this->db->from($table);
         $this->db->order_by($where, $cending);
-        $this->db->limit($limit, $start);
+        $this->db->limit($start, $end);
         $query = $this->db->get();
         return $query->result();
     }
@@ -76,6 +92,19 @@ class Model_admin extends CI_Model
         $this->db->from($table);
         $this->db->where($where, $val);
         $this->db->like($col, $keyword);
+        $this->db->order_by($order, $cending);
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
+
+    public function get_date_keyword($table, $where, $val, $col, $keyword, $first, $second, $order, $cending, $limit = null, $start = null)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where($where, $val);
+        $this->db->like($col, $keyword);
+        $this->db->where('tanggal >=', $first);
+        $this->db->where('tanggal <=', $second);
         $this->db->order_by($order, $cending);
         $this->db->limit($limit, $start);
         return $this->db->get()->result();

@@ -44,12 +44,12 @@ class Meja extends CI_Controller
         } else {
             if ($this->input->post('opsi') == 'Tersedia' || $this->input->post('opsi') == 'Dipakai') {
                 $data['opsi'] = $this->input->post('opsi');
-    
+
                 $data['meja'] = $this->model_admin->get_keyword('meja', 'id_resto', $id, 'status', $data['opsi'], 'nomer', 'asc');
                 $data['pagination'] = "";
             } else {
                 $data['opsi'] = "Semua";
-    
+
                 $data['meja'] = $this->model_admin->get_where_ordered('meja', 'id_resto', $id, 'nomer', 'asc', $config["per_page"], $data['page']);
                 $data['pagination'] = $this->pagination->create_links();
             }
@@ -71,7 +71,7 @@ class Meja extends CI_Controller
     {
         $id_resto = $this->session->id_resto;
         $nomer = $this->input->post('nomer');
-    
+
         $hasil = array(
             'id_resto' => $id_resto,
             'nomer' => $nomer,
@@ -92,16 +92,28 @@ class Meja extends CI_Controller
 
     public function hapus($id)
     {
-        $where = array('id_meja' => $id);
-        $this->model_admin->delete('meja', $where);
+        $penjualan = $this->model_admin->count_one('penjualan', 'id_meja', $id);
 
-        $this->session->set_flashdata(
-            'message',
-            '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
+        $where = array('id_meja' => $id);
+
+        if ($penjualan > 0) {
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="height: 80px;">
+                <p class="text-light">Tidak bisa dihapus, meja ini digunakan di transaksi</p>
+                <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>'
+            );
+        } else {
+            $this->model_admin->delete('meja', $where);
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
             <p class="text-light">Berhasil menghapus data</p>
             <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>'
-        );
+            );
+        }
         redirect('pemilik/meja');
     }
 
@@ -117,7 +129,7 @@ class Meja extends CI_Controller
 
     public function ubah_proses()
     {
-        $id_meja = $this->input->post('id_meja');        
+        $id_meja = $this->input->post('id_meja');
         $nomer = $this->input->post('nomer');
 
         $hasil = array(
@@ -137,28 +149,6 @@ class Meja extends CI_Controller
         );
 
         $this->model_admin->update('meja', $hasil, $id_meja_array);
-        redirect('pemilik/meja');
-    }    
-
-    public function ubah_status($id)
-    {
-        $stat = $this->model_admin->get_one('meja', $id, 'id_meja');
-
-        if ($stat->status == 'Dipakai') {
-            $status = 'Tersedia';
-        } else {
-            $status = 'Dipakai';
-        }
-
-        $data = array(
-            'status' => $status
-        );
-
-        $id = array(
-            'id_meja' => $id
-        );
-
-        $this->model_admin->update('meja', $data, $id);
         redirect('pemilik/meja');
     }
 }

@@ -69,13 +69,13 @@
           <h5 class="font-weight-bolder text-white mb-0">Pemilik</h5>
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Transaksi</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Laporan</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
           <ul class="navbar-nav  justify-content-start">
-            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line bg-white"></i>
@@ -112,23 +112,45 @@
               <?= $this->session->flashdata('message') ?>
 
               <form action="<?= base_url('pemilik/laporan') ?>" method="post">
-                <div class="hstack gap-3">
+                <div class="hstack gap-3 mb-3">
                   <input class="form-control" placeholder="Search" name="search" type="text">
                   <i class="fas fa-search" style="margin-left: -50px;"></i>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Tanggal Awal</label>
+                      <input type="date" name="tawal" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Tanggal Akhir</label>
+                      <input type="date" name="takhir" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4" style="position: relative;min-height: 103px;">
+                    <div class="form-group" style="position: absolute;bottom: 0;left: 15px;">
+                      <button type="submit" name="filter" class="btn btn-info btn-m">Filter</button>
+                    </div>
+                  </div>
+                </div>
               </form>
 
-              <div class="table-responsive p-0 mt-4">
+              <div class="table-responsive p-0">
                 <div class="table-responsive p-0">
                   <table class="table align-items-center mb-4">
                     <thead align="center">
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pelanggan</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bayar</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kembali</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Metode</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Detail</th>
                       </tr>
@@ -145,22 +167,20 @@
                                 ';
                     } else {
                       $no = $this->uri->segment('4') + 1;
-                      foreach ($laporan as $lap) :
-                        if ($lap->id_resto == $this->session->id_resto) { ?>
-                          <tbody align="center">
-                            <tr style="border-bottom: 1px solid lightgrey;">
-                              <td><?= $no++; ?></td>                              
-                              <td><?= $lap->pelanggan ?></td>
-                              <td><?= $lap->total ?></td>
-                              <td><?= $lap->bayar ?></td>
-                              <td><?= $lap->kembali ?></td>
-                              <td><?= $lap->metode_pembayaran ?></td>
-                              <td><?= $lap->status ?></td>
-                              <td><?= anchor('pemilik/laporan/detail/' . $lap->id_penjualan, '<div class="btn btn-warning btn-m"><i class="fa fa-info"></i></div>') ?></td>
-                            </tr>
-                          </tbody>
+                      foreach ($laporan as $lap) : ?>
+                        <tbody align="center">
+                          <tr style="border-bottom: 1px solid lightgrey;">
+                            <td><?= $no++; ?></td>
+                            <td><?= $lap->tanggal ?></td>
+                            <td><?= $lap->pelanggan ?></td>
+                            <td>Rp. <?= $lap->total ?></td>
+                            <td>Rp. <?= $lap->bayar ?></td>
+                            <td>Rp. <?= $lap->kembali ?></td>
+                            <td><?= $lap->status ?></td>
+                            <td><?= anchor('pemilik/laporan/detail/' . $lap->id_penjualan, '<div class="btn btn-warning btn-m"><i class="fa fa-info"></i></div>') ?></td>
+                          </tr>
+                        </tbody>
                       <?php
-                        }
                       endforeach; ?>
                     <?php
                     }

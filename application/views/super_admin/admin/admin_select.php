@@ -51,7 +51,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
           <ul class="navbar-nav  justify-content-start">
-            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line bg-white"></i>
@@ -95,21 +95,21 @@
               </form>
 
               <div class="table-responsive p-0 mt-4">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-5">
-                  <thead align="center">
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">Action</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                    </tr>
-                  </thead>
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-5">
+                    <thead align="center">
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">Action</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                      </tr>
+                    </thead>
 
-                  <?php
-                  if ($admin == null) {
-                    echo '
+                    <?php
+                    if ($admin == null) {
+                      echo '
                                 <tbody>
                                 <tr>
                                 <td colspan="6" style="text-align: center;">Tidak Ada Data</td>
@@ -117,44 +117,48 @@
                                 </tbody>                
                                 </table>
                                 ';
-                  } else {
-                    $no = $this->uri->segment('4') + 1;
-                    foreach ($admin as $adm) : 
-                      if ($adm->aktif == 1) {
-                        $status = 'Aktif';
-                        $warna = 'text-info';
                     } else {
-                        $status = 'Banned';
-                        $warna = 'text-warning';
-                    }?>
+                      $no = $this->uri->segment('4') + 1;
+                      foreach ($admin as $adm) :
+                        if ($adm->aktif == 1) {
+                          $status = 'Aktif';
+                          $warna = 'text-info';
+                        } else {
+                          $status = 'Banned';
+                          $warna = 'text-warning';
+                        } ?>
 
-                      <tbody align="center">
-                        <tr style="border-bottom: 1px solid lightgrey;">
-                          <td><?= $no++; ?></td>
-                          <td><?= $adm->username ?></td>
-                          <td><?= $adm->email ?></td>
+                        <tbody align="center">
+                          <tr style="border-bottom: 1px solid lightgrey;">
+                            <td><?= $no++; ?></td>
+                            <td><?= $adm->username ?></td>
+                            <td><?= $adm->email ?></td>
 
-                          <td><?= anchor('super_admin/admin/ubah/' . $adm->id_admin, '<div class="btn btn-success btn-m"><i class="fa fa-edit"></i></div>') ?></td>
-                          <?php if ($adm->id_admin == $this->session->id_admin) : ?>
-                            <td><div class="btn btn-danger btn-m opacity-5" disabled><i class="fa fa-trash"></i></div></td>
-                            <td><div class='" <?= $warna; ?> " opacity-5' disabled><?= $status; ?></div></td>
-                          <?php else : ?>
-                            <td onclick="javasript: return confirm('Anda yakin ingin menghapus data ini?')"><?= anchor('super_admin/admin/hapus/' . $adm->id_admin, '<div class="btn btn-danger btn-m"><i class="fa fa-trash"></i></div>') ?></td>
-                            <td><?= anchor('super_admin/admin/ubah_status/'.$adm->id_admin,'<div class="'.$warna.'">'.$status.'</div>') ?></td>
-                          <?php endif; ?>                          
+                            <td><?= anchor('super_admin/admin/ubah/' . $adm->id_admin, '<div class="btn btn-success btn-m"><i class="fa fa-edit"></i></div>') ?></td>
+                            <?php if ($adm->id_admin == $this->session->id_admin) : ?>
+                              <td>
+                                <div class="btn btn-danger btn-m opacity-5" disabled><i class="fa fa-trash"></i></div>
+                              </td>
+                              <td>
+                                <div class='" <?= $warna; ?> " opacity-5' disabled><?= $status; ?></div>
+                              </td>
+                            <?php else : ?>
+                              <td onclick="javasript: return confirm('Anda yakin ingin menghapus data ini?')"><?= anchor('super_admin/admin/hapus/' . $adm->id_admin, '<div class="btn btn-danger btn-m"><i class="fa fa-trash"></i></div>') ?></td>
+                              <td><?= anchor('super_admin/admin/ubah_status/' . $adm->id_admin, '<div class="' . $warna . '">' . $status . '</div>') ?></td>
+                            <?php endif; ?>
 
-                        </tr>
+                          </tr>
+                        <?php
+                      endforeach; ?>
+                        </tbody>
                       <?php
-                    endforeach; ?>
-                      </tbody>
-                    <?php
-                  }
-                    ?>
+                    }
+                      ?>
 
-                </table>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
           </div>
 
           <div class="row mb-4">

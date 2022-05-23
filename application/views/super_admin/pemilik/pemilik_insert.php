@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
                     <ul class="navbar-nav  justify-content-start">
-                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
                                     <i class="sidenav-toggler-line bg-white"></i>
@@ -117,7 +117,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="conf_pass" class="form-control-label">Confirm Password</label>
+                                            <label for="conf_pass" class="form-control-label">Konfirmasi Password</label>
                                             <div class="hstack gap-3">
                                                 <input class="form-control" id="conf_pass" aria-label="Password" name="conf_pass" type="password" value="<?= $input_data[3]; ?>" required>
                                                 <i class="fas fa-eye" id="ic_conf_pass" style="margin-left: -50px;"></i>
@@ -134,26 +134,26 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="nama_pemilik" class="form-control-label">Nama Pemilik</label>
+                                            <input class="form-control" id="nama_pemilik" name="nama_pemilik" type="text" value="<?= $input_data[5]; ?>" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="alamat" class="form-control-label">Alamat</label>
+                                            <input class="form-control" id="alamat" name="alamat" type="text" value="<?= $input_data[6]; ?>" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="nama" class="form-control-label">Logo / tempat</label>
                                             <div class="hstack gap-3">
-                                                <input style="margin-bottom: 20px;" class="form-control" type="text" id="logo" name="logo" value="<?= $input_data[5] ?>" disabled>
+                                                <input style="margin-bottom: 20px;" class="form-control" type="text" id="logo" name="logo" disabled>
                                                 <input class="form-control" id='logo_file' type='file' name='logo_file' hidden />
                                                 <input class="btn btn-secondary btn-sm" style="margin-left: -125px; margin-bottom: 20px;" id='buttonid' type='button' value='Upload' />
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6" style="margin-top: -20px;">
-                                        <div class="form-group">
-                                            <label for="nama_pemilik" class="form-control-label">Nama Pemilik</label>
-                                            <input class="form-control" id="nama_pemilik" name="nama_pemilik" type="text" value="<?= $input_data[6]; ?>" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6" style="margin-top: -20px;">
-                                        <div class="form-group">
-                                            <label for="alamat" class="form-control-label">Alamat</label>
-                                            <input class="form-control" id="alamat" name="alamat" type="text" value="<?= $input_data[7]; ?>" required>
                                         </div>
                                     </div>
 

@@ -75,7 +75,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
           <ul class="navbar-nav  justify-content-start">
-            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+            <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line bg-white"></i>
@@ -146,14 +146,14 @@
                     } else {
                       $no = $this->uri->segment('4') + 1;
                       foreach ($transaksi as $trans) :
-                        if ($trans->id_resto == $this->session->id_resto && $trans->tanggal = date('Y-m-d')) { ?>
+                        if ($trans->id_resto == $this->session->id_resto && $trans->tanggal == date('Y-m-d')) { ?>
                           <tbody align="center">
                             <tr style="border-bottom: 1px solid lightgrey;">
-                              <td><?= $no++; ?></td>                              
+                              <td><?= $no++; ?></td>
                               <td><?= $trans->pelanggan ?></td>
-                              <td><?= $trans->total ?></td>
-                              <td><?= $trans->bayar ?></td>
-                              <td><?= $trans->kembali ?></td>
+                              <td>Rp. <?= $trans->total ?></td>
+                              <td>Rp. <?= $trans->bayar ?></td>
+                              <td>Rp. <?= $trans->kembali ?></td>
                               <td><?= $trans->metode_pembayaran ?></td>
                               <td><?= $trans->status ?></td>
                               <td><?= anchor('pemilik/transaksi/detail/' . $trans->id_penjualan, '<div class="btn btn-warning btn-m"><i class="fa fa-info"></i></div>') ?></td>

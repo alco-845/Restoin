@@ -1,14 +1,6 @@
-<?php 
-
-if ($this->session->level === "Master") {
-  redirect("super_admin/dashboard");
-} else if ($this->session->level === "Admin") {
-  redirect("pemilik/dashboard");
-} else if ($this->session->level === "Pegawai") {
-  redirect("pegawai/dashboard");
-}
-
-?>
+<?php if ($this->session->id_pegawai == null) {
+  header("location:".base_url('login'));
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +11,7 @@ if ($this->session->level === "Master") {
   <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url() ?>assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="<?= base_url() ?>assets/img/favicon.png">
   <title>
-    Restoin - Login Admin
+    Restoin - Pegawai
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />

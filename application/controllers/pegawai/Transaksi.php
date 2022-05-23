@@ -12,7 +12,7 @@ class Transaksi extends CI_Controller
     public function index()
     {
         $id = $this->session->id_resto;
-        $config['base_url'] = site_url('pemilik/transaksi/index');
+        $config['base_url'] = site_url('pegawai/transaksi/index');
         $config['total_rows'] = $this->model_admin->count_one('laporan_penjualan', 'id_resto', $id);
         $config['per_page'] = 3;
         $config["uri_segment"] = 4;
@@ -45,9 +45,9 @@ class Transaksi extends CI_Controller
             $data['pagination'] = $this->pagination->create_links();
         }
 
-        $this->load->view('pemilik/template/header_pemilik');
-        $this->load->view('pemilik/transaksi/transaksi_select', $data);
-        $this->load->view('pemilik/template/footer_pemilik');
+        $this->load->view('pegawai/template/header_pegawai');
+        $this->load->view('pegawai/transaksi/transaksi_select', $data);
+        $this->load->view('pegawai/template/footer_pegawai');
     }
 
     public function detail($id)
@@ -57,9 +57,9 @@ class Transaksi extends CI_Controller
 
         $data['item'] = $this->model_admin->get('item_penjualan', $where);
 
-        $this->load->view('pemilik/template/header_pemilik');
-        $this->load->view('pemilik/transaksi/transaksi_detail', $data);
-        $this->load->view('pemilik/template/footer_pemilik');
+        $this->load->view('pegawai/template/header_pegawai');
+        $this->load->view('pegawai/transaksi/transaksi_detail', $data);
+        $this->load->view('pegawai/template/footer_pegawai');
     }
 
     public function bayar()
@@ -78,7 +78,7 @@ class Transaksi extends CI_Controller
                         <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
                       </div>'
             );
-        redirect('pemilik/transaksi/detail/' . $id);
+        redirect('pegawai/transaksi/detail/' . $id);
         } else {
             $hasil = array(
                 'total' => $total,
@@ -92,7 +92,7 @@ class Transaksi extends CI_Controller
                 'id_penjualan' => $id
             );
             $this->model_admin->update('penjualan', $hasil, $id_penjualan);
-            redirect('pemilik/transaksi/detail/' . $id);
+            redirect('pegawai/transaksi/detail/' . $id);
         }
     }
 
@@ -109,7 +109,7 @@ class Transaksi extends CI_Controller
         );
 
         $this->model_admin->update('detail_penjualan', $data, $id_detail);;
-        redirect('pemilik/transaksi/detail/' . $get_detail->id_penjualan );
+        redirect('pegawai/transaksi/detail/' . $get_detail->id_penjualan );
     }
 
     public function ubah_status($id)
@@ -134,6 +134,6 @@ class Transaksi extends CI_Controller
 
         $this->model_admin->update('penjualan', $data_penjualan, $id_penjualan);
         $this->model_admin->update('meja', $data_meja, $id_meja);
-        redirect('pemilik/transaksi/detail/' . $id );
+        redirect('pegawai/transaksi/detail/' . $id );
     }
 }

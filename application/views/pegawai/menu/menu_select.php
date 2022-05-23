@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link " href="<?= base_url('pemilik/dashboard') ?>">
+          <a class="nav-link " href="<?= base_url('pegawai/dashboard') ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
@@ -19,43 +19,19 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="<?= base_url('pemilik/menu') ?>">
+          <a class="nav-link active" href="<?= base_url('pegawai/menu') ?>" style="background-color: #F6F8FC;">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fas fa-pizza-slice text-success text-sm opacity-10 mb-1"></i>
             </div>
             <span class="nav-link-text ms-1">Menu</span>
           </a>
-        </li>
+        </li>        
         <li class="nav-item">
-          <a class="nav-link " href="<?= base_url('pemilik/pegawai') ?>">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-warning text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Pegawai</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="<?= base_url('pemilik/meja') ?>" style="background-color: #F6F8FC;">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fas fa-utensils text-info text-sm opacity-10 mb-1"></i>
-            </div>
-            <span class="nav-link-text ms-1">Meja</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="<?= base_url('pemilik/transaksi') ?>">
+          <a class="nav-link " href="<?= base_url('pegawai/transaksi') ?>">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-cart text-secondary text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Transaksi Hari Ini</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="<?= base_url('pemilik/laporan') ?>">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-chart-bar-32 text-danger text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Laporan</span>
           </a>
         </li>
       </ul>
@@ -66,10 +42,10 @@
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-          <h5 class="font-weight-bolder text-white mb-0">Pemilik</h5>
+          <h5 class="font-weight-bolder text-white mb-0">Pegawai</h5>
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Meja</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Menu</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -88,7 +64,7 @@
               <p class="nav-link text-white m-auto fs-5"><?= $this->session->username; ?></p>
             </li>
             <li class="nav-item px-1 d-flex align-items-center">
-              <a href="<?= base_url('pemilik/dashboard/logout') ?>" class="nav-link text-white p-0 fs-5">
+              <a href="<?= base_url('pegawai/dashboard/logout') ?>" class="nav-link text-white p-0 fs-5">
                 <i class="fa fa-sign-out"></i>
               </a>
             </li>
@@ -105,25 +81,25 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0 hstack gap-3 d-flex justify-content-between">
-              <h6>Daftar Meja</h6>
-              <a type="button" class="btn btn-info ml-4" href="<?= base_url('pemilik/meja/tambah') ?>" role="button"><i class="fas fa-plus fa-sm"></i>&nbsp; Tambah</a>
+              <h6>Daftar Menu</h6>
             </div>
             <div class="card-body pt-2 pb-0">
 
               <?= $this->session->flashdata('message') ?>
 
-              <form action="<?= base_url('pemilik/meja') ?>" method="post">
+              <form action="<?= base_url('pegawai/menu') ?>" method="post">
                 <div class="hstack gap-3">
                   <input class="form-control" placeholder="Search" name="search" type="text">
                   <i class="fas fa-search" style="margin-left: -50px;"></i>
                 </div>
               </form>
 
-              <form action="<?= base_url('pemilik/meja') ?>" method="post">
+              <form action="<?= base_url('pegawai/menu') ?>" method="post">
                 <select name="opsi" onchange="form.submit()" class="form-control mt-4">
                   <option <?php if ($opsi == 'Semua') echo "selected" ?> value="Semua">Semua</option>
-                  <option <?php if ($opsi == 'Tersedia') echo "selected" ?> value="Tersedia">Tersedia</option>
-                  <option <?php if ($opsi == 'Dipakai') echo "selected" ?> value="Dipakai">Tidak tersedia</option>
+                  <option <?php if ($opsi == 'Makanan') echo "selected" ?> value="Makanan">Makanan</option>
+                  <option <?php if ($opsi == 'Minuman') echo "selected" ?> value="Minuman">Minuman</option>
+                  <option <?php if ($opsi == 'Snack') echo "selected" ?> value="Snack">Snack</option>
                 </select>
               </form>
 
@@ -133,13 +109,14 @@
                     <thead align="center">
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor Meja</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">Action</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-25">Foto</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kategori</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Menu</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
                       </tr>
                     </thead>
                     <?php
-                    if ($meja == null) {
+                    if ($menu == null) {
                       echo '
                                 <tbody>
                                 <tr>
@@ -150,22 +127,15 @@
                                 ';
                     } else {
                       $no = $this->uri->segment('4') + 1;
-                      foreach ($meja as $mej) :
-                        if ($mej->id_resto == $this->session->id_resto) { 
-                            if ($mej->status == 'Tersedia') {
-                                $status = $mej->status;
-                                $warna = 'text-info';
-                            } else {
-                                $status = 'Tidak tersedia';
-                                $warna = 'text-warning';
-                            } ?>
+                      foreach ($menu as $mnu) :
+                        if ($mnu->id_resto == $this->session->id_resto) { ?>
                           <tbody align="center">
                             <tr style="border-bottom: 1px solid lightgrey;">
-                              <td><?= $no++; ?></td>                              
-                              <td><?= $mej->nomer ?></td>
-                              <td><?= anchor('pemilik/meja/ubah/' . $mej->id_meja, '<div class="btn btn-success btn-m"><i class="fa fa-edit"></i></div>') ?></td>
-                              <td onclick="javasript: return confirm('Anda Yakin Ingin Menghapus?')"><?= anchor('pemilik/meja/hapus/' . $mej->id_meja, '<div class="btn btn-danger btn-m"><i class="fa fa-trash"></i></div>') ?></td>
-                              <td><?= $mej->status ?></td>
+                              <td><?= $no++; ?></td>
+                              <td><img src="<?= base_url() ?>assets/img/upload/menu/<?= $mnu->foto ?>" class="img-fluid p-3"></td>
+                              <td><?= $mnu->kategori ?></td>
+                              <td><?= $mnu->menu ?></td>
+                              <td>Rp.<?= $mnu->harga ?></td>
                             </tr>
                           </tbody>
                       <?php

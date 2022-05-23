@@ -37,10 +37,10 @@ class Pemilik extends CI_Controller
 
         $search = $this->input->post('search');
         if ($search) {
-            $data['pemilik'] = $this->model_admin->get_keyword('pemilik', 'level', 'Master', 'nama', $search, 'nama', 'asc');
+            $data['pemilik'] = $this->model_admin->get_keyword('pemilik', 'level', 'Admin', 'username', $search, 'username', 'asc');
             $data['pagination'] = "";
         } else {
-            $data['pemilik'] = $this->model_admin->get_where_ordered('pemilik', 'level', 'Master', 'nama', 'asc', $config["per_page"], $data['page']);
+            $data['pemilik'] = $this->model_admin->get_where_ordered('pemilik', 'level', 'Admin', 'username', 'asc', $config["per_page"], $data['page']);
             $data['pagination'] = $this->pagination->create_links();
         }
 
@@ -75,7 +75,7 @@ class Pemilik extends CI_Controller
         $conf_pass = $this->input->post('conf_pass');
         $nama_pemilik = $this->input->post('nama_pemilik');
         $nama = $this->input->post('nama');
-        $logo = $this->input->post('logo_file');
+        $logo_file = $_FILES['logo_file'];
         $alamat = $this->input->post('alamat');
 
         $data['input_data'] = array(
@@ -84,7 +84,6 @@ class Pemilik extends CI_Controller
             $pass,
             $conf_pass,
             $nama,
-            $logo,
             $nama_pemilik,
             $alamat,
         );
@@ -110,7 +109,7 @@ class Pemilik extends CI_Controller
                 $this->model_admin->insert("resto", $hasil_resto);
                 $this->session->set_flashdata('insert', TRUE);
                 if ($this->session->flashdata('insert') === TRUE) {
-                    $get_resto = $this->model_admin->get_one('resto', $alamat, 'alamat');
+                    $get_resto = $this->model_admin->get_one_ordered('resto', 'id_resto', 'desc');
                     $id_resto = $get_resto->id_resto;
 
                     $this->load->library('ciqrcode');
@@ -121,28 +120,25 @@ class Pemilik extends CI_Controller
                     $params['savename'] = FCPATH . './assets/img/upload/qrcode/' . $qr_name;
                     $this->ciqrcode->generate($params);
 
-                    $gambar_restoran = $id_resto . '_' . $_FILES['logo_file']['name'];
-                    $config['upload_path'] = './assets/img/upload/restoran';
-                    $config['allowed_types'] = 'jpg|png|jpeg';
-
-                    $this->load->library('upload', $config);
-                    if (!$this->upload->do_upload('logo_file')) {
-                        $gambar_restoran = "default.jpg";
-                    } else {
-                        $gambar_restoran = $this->upload->data('file_name');
-                    }
+                    $tmp = $_FILES['logo_file']['tmp_name'];
+                if (!empty($tmp)) {
+                    $logo_file = $id_resto . '_' . date('Y-m-d') . '_' . $_FILES['logo_file']['name'];
+                    move_uploaded_file($tmp, './assets/img/upload/restoran/' . $logo_file);                    
+                } else {
+                    $logo_file = "default.jpg";
+                }
 
                     $hasil_admin = array(
                         'id_resto' => $id_resto,
                         'username' => $username,
                         'email' => $email,
                         'password' => $pass,
-                        'level' => 'Master',
+                        'level' => 'Admin',
                         'aktif' => 1
                     );
 
                     $hasil_resto = array(
-                        'logo' => $gambar_restoran,
+                        'logo' => $logo_file,
                         'qrcode' => $qr_name
                     );
 
@@ -184,21 +180,38 @@ class Pemilik extends CI_Controller
 
     public function hapus($id)
     {
+        $penjualan = $this->model_admin->count_one('penjualan', 'id_resto', $id);
+        $meja = $this->model_admin->count_one('meja', 'id_resto', $id);
+        $menu = $this->model_admin->count_one('menu', 'id_resto', $id);
+        $pegawai = $this->model_admin->count_one('pegawai', 'id_resto', $id);
+        
         $get = $this->model_admin->get_one('pemilik', $id, 'id_resto');
-        unlink('./assets/img/upload/restoran/' . $get->logo);
         unlink('./assets/img/upload/qrcode/' . $get->qrcode);
+        if ($get->logo != "default.jpg") {
+            unlink('./assets/img/upload/restoran/' . $get->logo);
+        }
 
-        $where = array('id_resto' => $id);
-        $this->model_admin->delete('admin', $where);
-        $this->model_admin->delete('resto', $where);
+        $where = array('id_resto' => $id);        
 
-        $this->session->set_flashdata(
-            'message',
-            '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
-            <p class="text-light">Berhasil menghapus data</p>
-            <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>'
-        );
+        if ($penjualan > 0 || $meja > 0 || $menu > 0 || $pegawai > 0) {
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="height: 80px;">
+                <p class="text-light">Tidak bisa dihapus, akun ini memiliki data</p>
+                <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>'
+            );
+        } else {
+            $this->model_admin->delete('admin', $where);
+            $this->model_admin->delete('resto', $where);
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
+                <p class="text-light">Berhasil menghapus data</p>
+                <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>'
+            );
+        }                
         redirect('super_admin/pemilik');
     }
 
@@ -236,7 +249,7 @@ class Pemilik extends CI_Controller
                     'username' => $username,
                     'email' => $email,
                     'password' => $pass,
-                    'level' => 'Master'
+                    'level' => 'Admin'
                 );
 
                 $id_admin_array = array(
@@ -246,7 +259,7 @@ class Pemilik extends CI_Controller
                 $get = $this->model_admin->get_one('pemilik', $id_resto, 'id_resto');
                 $tmp = $_FILES['logo_file']['tmp_name'];
                 if (!empty($tmp)) {
-                    $logo_file = $get->id_resto . '_' . $_FILES['logo_file']['name'];
+                    $logo_file = $get->id_resto . '_' . date('Y-m-d') . '_' . $_FILES['logo_file']['name'];
                     move_uploaded_file($tmp, './assets/img/upload/restoran/' . $logo_file);
                     if ($get->logo != "default.jpg") {
                         unlink('./assets/img/upload/restoran/' . $get->logo);
@@ -283,7 +296,7 @@ class Pemilik extends CI_Controller
                     'username' => $username,
                     'email' => $email,
                     'password' => $pass,
-                    'level' => 'Master'
+                    'level' => 'Admin'
                 );
 
                 $id_admin_array = array(
@@ -293,7 +306,7 @@ class Pemilik extends CI_Controller
                 $get = $this->model_admin->get_one('pemilik', $id_resto, 'id_resto');
                 $tmp = $_FILES['logo_file']['tmp_name'];
                 if (!empty($tmp)) {
-                    $logo_file = $_FILES['logo_file']['name'];
+                    $logo_file = $get->id_resto . '_' . date('Y-m-d') . '_' . $_FILES['logo_file']['name'];
                     move_uploaded_file($tmp, './assets/img/upload/restoran/' . $logo_file);
                     if ($get->logo != "default.jpg") {
                         unlink('./assets/img/upload/restoran/' . $get->logo);

@@ -33,29 +33,36 @@ class Login extends CI_Controller
 		$getPegawai = $this->model_admin->get_one('pegawai', $username, 'username');
 
 		if ($authAdmin == TRUE || $authPegawai == TRUE) {
-			if ($getAdmin->level === "Admin") {
+			if ($getAdmin->level === "Master") {
 				$this->session->set_userdata(
 					array(
 						'id_admin' => $getAdmin->id_admin,
 						'username' => $getAdmin->username,
-						'email' => $getAdmin->email,
 						'level' => $getAdmin->level
 					)
 				);
 				redirect("super_admin/dashboard");
-			} else if ($getAdmin->level === "Master") {
+			} else if ($getAdmin->level === "Admin") {
 				$this->session->set_userdata(
 					array(
 						'id_pemilik' => $getAdmin->id_admin,
 						'id_resto' => $getAdmin->id_resto,
 						'username' => $getAdmin->username,
-						'email' => $getAdmin->email,
 						'level' => $getAdmin->level
 					)
 				);
 				redirect("pemilik/dashboard");
-			} else if ($getAdmin->level === "Kasir") {
-				redirect("kasir");
+			} else if ($getPegawai->username === $username) {
+				$this->session->set_userdata(
+					array(
+						'id_pegawai' => $getPegawai->id_pegawai,
+						'id_resto' => $getPegawai->id_resto,
+						'username' => $getPegawai->username,
+						'nama' => $getPegawai->nama,
+						'level' => 'Pegawai'
+					)
+				);
+				redirect("pegawai/dashboard");
 			}
 		} else if ($getAdmin->aktif == '0' || $getPegawai->aktif == '0') {
 			$this->session->set_flashdata(

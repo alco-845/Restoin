@@ -76,7 +76,7 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
                     <ul class="navbar-nav  justify-content-start">
-                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
                                     <i class="sidenav-toggler-line bg-white"></i>
@@ -101,14 +101,16 @@
         </nav>
         <!-- End Navbar -->
 
-        <?php foreach ($transaksi as $trans) : ?>
+        <?php foreach ($laporan as $lap) : ?>
             <div class="card shadow-lg mx-4 card-profile-top mt-4">
                 <div class="card-body p-3">
                     <div class="row gx-4">
                         <div class="col-auto my-auto">
                             <div class="h-100">
                                 <h3>
-                                    <?= $trans->pelanggan; ?>
+                                    <?= $lap->no_faktur; ?> |
+                                    <?= $lap->tanggal; ?> |
+                                    <?= $lap->pelanggan; ?>
                                 </h3>
                             </div>
                         </div>
@@ -118,59 +120,53 @@
 
             <hr class="horizontal dark">
 
-            <div class="container-fluid py-4">
+            <div class="container-fluid">
                 <div class="row">
 
-                    <?php foreach ($item as $itm) : ?>
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header pb-0">
-                                    <div class="d-flex align-items-center">
-                                        <p class="mb-0 fs-5">Profil</p>
-                                    </div>
-                                </div>
+                    <div class="col-md-8">
+                        <?php
+                        $no = 1;
+                        foreach ($item as $itm) : ?>
+                            <div class="card mt-3 mb-3">
 
                                 <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <img src="<?= base_url() ?>assets/img/upload/menu/<?= $itm->foto ?>" alt="Foto" class="card-img-top p-3">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-1">
+                                            <p class="mx-1 text-sm"><?= $no++; ?></p>
                                         </div>
-                                        <div class="col-md-12">
-                                            <label class="label text-sm">Menu</label>
-                                            <p class="mx-1 text-sm"><?= $itm->menu; ?></p>
+                                        <div class="col-md-4">
+                                            <img src="<?= base_url() ?>assets/img/upload/menu/<?= $itm->foto ?>" alt="Foto" class="card-img-top p-3 img-fluid">
                                         </div>
-                                        <div class="col-md-12">
-                                            <label class="label text-sm">Jumlah</label>
-                                            <p class="mx-1 text-sm"><?= $itm->jumlah; ?></p>
+                                        <div class="col-md-5">
+                                            <h4 class="mx-1 text-m"><?= $itm->menu; ?></h4>
+                                            <p class="mx-1 text-sm">Qty: <?= $itm->jumlah; ?></p>
+                                            <p class="mx-1 text-sm">Harga: Rp. <?= $itm->harga; ?></p>
+                                            <p class="mx-1 text-sm">Subtotal: Rp. <?= $itm->subtotal; ?></p>
                                         </div>
-                                        <div class="col-md-12">
-                                            <label class="label text-sm">Harga</label>
-                                            <p class="mx-1 text-sm"><?= $itm->harga; ?></p>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label class="label text-sm">Sub Total</label>
-                                            <p class="mx-1 text-sm"><?= $itm->subtotal; ?></p>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label class="label text-sm">Status</label>
-                                            <p class="mx-1 text-sm"><?= $itm->status; ?></p>
+                                        <div class="col-md-2">
+                                            <p class="mx-1 text-sm">Status: <?= $itm->status; ?></p>
                                         </div>
                                     </div>
 
                                 </div>
 
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
 
-                    <div class="col-md-4  pt-5">
-                        <div class="card card-profile">
-                            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                                <p><?= $trans->total; ?></p>
-                                <p><?= $trans->bayar; ?></p>
-                                <p><?= $trans->kembali; ?></p>
+                    <div class="col-md-4 pt-3 pb-3">
+                        <div class="card">
+
+                            <div class="card-body border-0 pt-4 pt-lg-3 pb-2 pb-lg-3">
+                                <p>Meja: <?= $lap->nomer_meja; ?></p>
+                                <p>Metode Pembayaran: <?= $lap->metode_pembayaran; ?></p>
+                                <p>Status: <?= $lap->status; ?></p>
+                                <p>Total: Rp. <?= $lap->total; ?></p>
+                                <p>Bayar: Rp. <?= $lap->bayar; ?></p>
+                                <p>Kembali: Rp. <?= $lap->kembali; ?></p>
                             </div>
+
                         </div>
                     </div>
 

@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
                     <ul class="navbar-nav  justify-content-start">
-                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
                                     <i class="sidenav-toggler-line bg-white"></i>
@@ -99,10 +99,10 @@
 
             <hr class="horizontal dark">
 
-            <div class="container-fluid py-4">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="card">
+                        <div class="card mt-3 mb-3">
                             <div class="card-header pb-0">
                                 <div class="d-flex align-items-center">
                                     <p class="mb-0 fs-5">Profil Akun</p>
@@ -148,14 +148,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4  pt-5">
+                    <div class="col-md-4 pt-3 pb-3">
                         <div class="card card-profile">
-                            <img src="<?= base_url() ?>assets/img/upload/qrcode/<?= $pml->qrcode ?>" alt="Qrcode" class="card-img-top p-3">
-                            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+                            <img src="<?= base_url() ?>assets/img/upload/qrcode/<?= $pml->qrcode ?>" alt="Qrcode" class="card-img-top img-fluid p-3">
+                            <div class="card-body text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
                                 <div class="d-flex justify-content-center">
                                     <a href="<?= base_url() ?>assets/img/upload/qrcode/<?= $pml->qrcode ?>" download class="btn btn-sm btn-dark mb-0 d-lg-block">Download</a>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
 

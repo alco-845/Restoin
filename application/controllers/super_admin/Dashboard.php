@@ -8,8 +8,8 @@
 		}
 
 		public function index(){				
-			$data['admin'] = $this->model_admin->count_one('admin', 'level', 'Admin');
-			$data['resto'] = $this->model_admin->count_one('pemilik', 'level', 'Master');
+			$data['admin'] = $this->model_admin->count_one('admin', 'level', 'Master');
+			$data['resto'] = $this->model_admin->count_one('pemilik', 'level', 'Admin');
 			
 			$this->load->view('super_admin/template/header_admin');
 			$this->load->view('super_admin/dashboard', $data);
@@ -21,7 +21,6 @@
 				array(
 					'id_admin',
 					'username',
-					'email',
 					'level'
 				)
 			);

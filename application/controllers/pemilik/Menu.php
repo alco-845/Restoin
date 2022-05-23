@@ -44,15 +44,15 @@ class Menu extends CI_Controller
         } else {
             if ($this->input->post('opsi') == 'Makanan' || $this->input->post('opsi') == 'Minuman' || $this->input->post('opsi') == 'Snack') {
                 $data['opsi'] = $this->input->post('opsi');
-    
+
                 $data['menu'] = $this->model_admin->get_keyword('menu', 'id_resto', $id, 'kategori', $data['opsi'], 'menu', 'asc');
                 $data['pagination'] = "";
             } else {
                 $data['opsi'] = "Semua";
-    
+
                 $data['menu'] = $this->model_admin->get_where_ordered('menu', 'id_resto', $id, 'menu', 'asc', $config["per_page"], $data['page']);
                 $data['pagination'] = $this->pagination->create_links();
-            } 
+            }
         }
 
         $this->load->view('pemilik/template/header_pemilik');
@@ -74,17 +74,14 @@ class Menu extends CI_Controller
         $menu = $this->input->post('menu');
         $harga = $this->input->post('harga');
 
-        $foto = $this->input->post('foto_file');
+        $foto_file = $_FILES['foto_file'];
 
-        $foto = $id_resto . '_' . time() . '_' . $_FILES['foto_file']['name'];
-        $config['upload_path'] = './assets/img/upload/menu';
-        $config['allowed_types'] = 'jpg|png|jpeg';
-
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('foto_file')) {
-            $foto = "default.jpg";
+        $tmp = $_FILES['foto_file']['tmp_name'];
+        if (!empty($tmp)) {
+            $foto_file = $id_resto . '_' . date('Y-m-d') . '_' . $_FILES['foto_file']['name'];
+            move_uploaded_file($tmp, './assets/img/upload/menu/' . $foto_file);
         } else {
-            $foto = $this->upload->data('file_name');
+            $foto_file = 'default.jpg';
         }
 
         $hasil = array(
@@ -92,7 +89,7 @@ class Menu extends CI_Controller
             'kategori' => $kategori,
             'menu' => $menu,
             'harga' => $harga,
-            'foto' => $foto,
+            'foto' => $foto_file,
         );
 
         $this->session->set_flashdata(
@@ -109,19 +106,32 @@ class Menu extends CI_Controller
 
     public function hapus($id)
     {
+        $penjualan = $this->model_admin->count_one('detail_penjualan', 'id_menu', $id);
         $get = $this->model_admin->get_one('menu', $id, 'id_menu');
-        unlink('./assets/img/upload/menu/' . $get->foto);
+        if ($get->foto != "default.jpg") {
+            unlink('./assets/img/upload/menu/' . $get->foto);
+        }
 
         $where = array('id_menu' => $id);
-        $this->model_admin->delete('menu', $where);
 
-        $this->session->set_flashdata(
-            'message',
-            '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
+        if ($penjualan > 0) {
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="height: 80px;">
+                <p class="text-light">Tidak bisa dihapus, menu ini digunakan di transaksi</p>
+                <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>'
+            );
+        } else {
+            $this->model_admin->delete('menu', $where);
+            $this->session->set_flashdata(
+                'message',
+                '<div class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
             <p class="text-light">Berhasil menghapus data</p>
             <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>'
-        );
+            );
+        }
         redirect('pemilik/menu');
     }
 
@@ -142,12 +152,12 @@ class Menu extends CI_Controller
         $menu = $this->input->post('menu');
         $harga = $this->input->post('harga');
 
-        $foto_file = $_FILES['foto_file'];        
+        $foto_file = $_FILES['foto_file'];
 
         $get = $this->model_admin->get_one('menu', $id_menu, 'id_menu');
         $tmp = $_FILES['foto_file']['tmp_name'];
         if (!empty($tmp)) {
-            $foto_file = $get->id_resto . '_' . time() . '_' . $_FILES['foto_file']['name'];
+            $foto_file = $get->id_resto . '_' . date('Y-m-d') . '_' . $_FILES['foto_file']['name'];
             move_uploaded_file($tmp, './assets/img/upload/menu/' . $foto_file);
             if ($get->foto != "default.jpg") {
                 unlink('./assets/img/upload/menu/' . $get->foto);
@@ -177,5 +187,5 @@ class Menu extends CI_Controller
 
         $this->model_admin->update('menu', $hasil, $id_menu_array);
         redirect('pemilik/menu');
-    }    
+    }
 }

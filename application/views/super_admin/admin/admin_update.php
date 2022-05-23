@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
                     <ul class="navbar-nav  justify-content-start">
-                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 50%;">
+                        <li class="nav-item d-xl-none d-flex align-items-center" style="padding-right: 120px;">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                                 <div class="sidenav-toggler-inner">
                                     <i class="sidenav-toggler-line bg-white"></i>
@@ -86,57 +86,57 @@
                         </div>
                         <div class="card-body">
 
-                        <?= $this->session->flashdata('message') ?>
+                            <?= $this->session->flashdata('message') ?>
 
-                        <?php foreach($admin as $adm) : ?>
+                            <?php foreach ($admin as $adm) : ?>
 
-                            <form action="<?= base_url('super_admin/admin/ubah_proses') ?>" method="post">
-                                <div class="row">
+                                <form action="<?= base_url('super_admin/admin/ubah_proses') ?>" method="post">
+                                    <div class="row">
 
-                                    <input class="form-control" name="id_admin" type="hidden" value="<?= $adm->id_admin; ?>">
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="username" class="form-control-label">Username</label>
-                                            <input class="form-control" id="username" name="username" type="text" value="<?= $adm->username; ?>" required>
-                                        </div>
-                                    </div>
+                                        <input class="form-control" name="id_admin" type="hidden" value="<?= $adm->id_admin; ?>">
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email" class="form-control-label">Email</label>
-                                            <input class="form-control" id="email" name="email" type="email" value="<?= $adm->email; ?>" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="pass" class="form-control-label">Password</label>
-                                            <div class="hstack gap-3">
-                                                <input class="form-control" id="pass" aria-label="Password" name="pass" type="password" value="<?= $adm->password; ?>" required>
-                                                <i class="fas fa-eye" id="ic_pass" style="margin-left: -50px"></i>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="username" class="form-control-label">Username</label>
+                                                <input class="form-control" id="username" name="username" type="text" value="<?= $adm->username; ?>" required>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="conf_pass" class="form-control-label">Confirm Password</label>
-                                            <div class="hstack gap-3">
-                                                <input class="form-control" id="conf_pass" aria-label="Password" name="conf_pass" type="password" value="<?= $adm->password; ?>" required>
-                                                <i class="fas fa-eye" id="ic_conf_pass" style="margin-left: -50px"></i>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email" class="form-control-label">Email</label>
+                                                <input class="form-control" id="email" name="email" type="email" value="<?= $adm->email; ?>" required>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-12 mt-4">
-                                        <div class="form-group">
-                                            <input type="submit" name="submit" value="Ubah" class="btn btn-success btn-sm btn-block w-100 fs-5">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="pass" class="form-control-label">Password</label>
+                                                <div class="hstack gap-3">
+                                                    <input class="form-control" id="pass" aria-label="Password" name="pass" type="password" value="<?= $adm->password; ?>" required>
+                                                    <i class="fas fa-eye" id="ic_pass" style="margin-left: -50px"></i>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                            </form>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="conf_pass" class="form-control-label">Konfirmasi Password</label>
+                                                <div class="hstack gap-3">
+                                                    <input class="form-control" id="conf_pass" aria-label="Password" name="conf_pass" type="password" value="<?= $adm->password; ?>" required>
+                                                    <i class="fas fa-eye" id="ic_conf_pass" style="margin-left: -50px"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mt-4">
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Ubah" class="btn btn-success btn-sm btn-block w-100 fs-5">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
 
                             <?php endforeach; ?>
 

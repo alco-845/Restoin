@@ -13,16 +13,7 @@
 			$data['pegawai'] = $this->model_admin->count_one('pegawai', 'id_resto', $id);
 			$data['meja'] = $this->model_admin->count_one('meja', 'id_resto', $id);
 			$data['order'] = $this->model_admin->count_one('penjualan', 'id_resto', $id);
-
-			$data['transaksi'] = 0;
-			$getData = $this->model_admin->get_one('penjualan', $id, 'id_resto');
-			if ($data['order'] > 0) {
-				for ($i=0; $i > $data['order']; $i++) { 
-					if ($getData->tanggal == date('Y-m-d')) {
-						$data['transaksi'] += $i;
-					}
-				}
-			}
+			$data['transaksi'] = $this->model_admin->count_two('penjualan', 'id_resto', $id, 'tanggal', date('Y-m-d'));
 			
 			$this->load->view('pemilik/template/header_pemilik');
 			$this->load->view('pemilik/dashboard', $data);
@@ -34,7 +25,6 @@
 				array(
 					'id_pemilik',
 					'username',
-					'email',
 					'level'
 				)
 			);
