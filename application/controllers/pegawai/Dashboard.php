@@ -18,15 +18,7 @@
 		}
 
 		public function logout(){
-			$this->session->unset_userdata(
-				array(
-					'id_pegawai',
-                    'id_resto',
-                    'username',
-                    'nama',
-					'level'
-				)
-			);
+			$this->session->sess_destroy();
 			redirect('login');
 		}
 

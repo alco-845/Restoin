@@ -9,9 +9,12 @@ class Menu extends CI_Controller
         $this->load->model('model_pelanggan');
     }
 
-    public function index()
+    public function index($id)
     {
-        $id = $this->session->id_resto;
+        $data['id'] = $id;
+        $data['resto'] = $this->model_pelanggan->get_one('resto', $id, 'id_resto');
+        $data['check'] = "Menu";
+        $data['detail'] = false;
         
         $search = $this->input->post('search');
         if ($search) {
@@ -30,6 +33,7 @@ class Menu extends CI_Controller
         }
 
         $this->load->view('pemesanan/template/header_pemesanan');
+        $this->load->view('pemesanan/template/sidebar_pemesanan', $data);
         $this->load->view('pemesanan/menu', $data);
         $this->load->view('pemesanan/template/footer_pemesanan');
     }

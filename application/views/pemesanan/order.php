@@ -12,7 +12,7 @@
                                 <h4 class="font-weight-bolder"><?= $resto->nama; ?></h4>
                             </div>
                             <div class="card-body">
-                                <form action="<?= base_url('pemesanan/pesan/login') ?>" method="post">
+                                <form action="<?= base_url('pemesanan/order/login') ?>" method="post">
                                 <input type="hidden" name="id_resto" value="<?= $resto->id_resto; ?>">
                                     <div class="mb-3">
                                         <div class="form-group">

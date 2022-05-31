@@ -11,9 +11,14 @@ class Keranjang extends CI_Controller
 
     public function index()
     {
+        $data['id'] = $this->session->id_resto;
+        $data['resto'] = $this->model_pelanggan->get_one('resto', $data['id'], 'id_resto');
+        $data['check'] = "Keranjang";
         $data['cart'] = $this->cart->contents();
+        $data['detail'] = false;
 
         $this->load->view('pemesanan/template/header_pemesanan');
+        $this->load->view('pemesanan/template/sidebar_pemesanan', $data);
         $this->load->view('pemesanan/keranjang', $data);
         $this->load->view('pemesanan/template/footer_pemesanan');
     }
@@ -114,6 +119,8 @@ class Keranjang extends CI_Controller
                 'id_penjualan' => $get_penjualan->id_penjualan
             );
 
+            $this->session->set_userdata(array('transaksi_' . $get_penjualan->id_penjualan => $get_penjualan->id_penjualan));
+
             $this->model_pelanggan->update('penjualan', $penjualan, $id_penjualan_array);
 
             $this->cart->destroy();
@@ -124,7 +131,7 @@ class Keranjang extends CI_Controller
                     <button type="button" class="btn-close w-100 h-100" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>'
             );
-            redirect('pemesanan/menu');
+            redirect('pesan/' . $id_resto);
         }
     }
 }

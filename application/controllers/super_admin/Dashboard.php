@@ -17,13 +17,7 @@
 		}
 
 		public function logout(){
-			$this->session->unset_userdata(
-				array(
-					'id_admin',
-					'username',
-					'level'
-				)
-			);
+			$this->session->sess_destroy();
 			redirect('login');
 		}
 

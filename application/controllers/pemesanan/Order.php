@@ -1,6 +1,6 @@
 <?php
 
-	class Pesan extends CI_Controller {
+	class Order extends CI_Controller {
 		
 		public function __construct(){
 			parent::__construct();
@@ -12,7 +12,7 @@
 			$data['meja'] = $this->model_pelanggan->get_keyword('meja', 'id_resto', $id, 'status', 'Tersedia', 'id_meja', 'asc');
 			
 			$this->load->view('login/header_login');
-			$this->load->view('pemesanan/pesan', $data);
+			$this->load->view('pemesanan/order', $data);
 		}
 
 		public function login(){
@@ -34,20 +34,13 @@
 				)
 			);
 			$this->cart->destroy();
-			redirect("pemesanan/menu");
+			redirect("pesan/" . $id_resto);
 		}
 
 		public function logout(){
 			$id = $this->session->id_resto;
-			$this->session->unset_userdata(
-				array(
-					'id_resto',
-					'nama_resto',
-					'nama',
-					'meja'
-				)
-			);
-			redirect('pesan/' . $id);
+			$this->session->sess_destroy();
+			redirect('order/' . $id);
 		}
 
 	}
