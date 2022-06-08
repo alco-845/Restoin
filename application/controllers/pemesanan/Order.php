@@ -32,13 +32,13 @@
 					'nama' => $nama,
 					'meja' => $meja->nomer
 				)
-			);
-			$this->cart->destroy();
+			);			
 			redirect("pesan/" . $id_resto);
 		}
 
 		public function logout(){
 			$id = $this->session->id_resto;
+			$this->cart->destroy();
 			$this->session->sess_destroy();
 			redirect('order/' . $id);
 		}

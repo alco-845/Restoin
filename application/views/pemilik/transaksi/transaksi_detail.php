@@ -169,13 +169,13 @@
                                     <p>Meja: <?= $trans->nomer_meja; ?></p>
                                     <p>Status meja: <?= $trans->status_meja; ?></p>
 
-                                    <?php if ($trans->metode_pembayaran == 'Belum bayar') { ?>
-                                        <label" for="metode" class="form-control-label">Metode Pembayaran</label>
-                                            <select name="metode" class="form-control mb-3">
-                                                <option value="Tunai">Tunai</option>
-                                                <option value="Bank Transfer">Bank Transfer</option>
-                                                <option value="OVO">OVO</option>
-                                                <option value="Shopee Pay">Shopee Pay</option>
+                                    <?php if ($trans->status != 'Sudah dibayar') { ?>
+                                        <p>Metode Pembayaran:</p>
+                                            <select name="metode" class="form-control mb-4">
+                                                <option <?php if ($trans->metode_pembayaran == 'Tunai') echo "selected" ?> value="Tunai">Tunai</option>
+                                                <option <?php if ($trans->metode_pembayaran == 'Bank Transfer') echo "selected" ?> value="Bank Transfer">Bank Transfer</option>
+                                                <option <?php if ($trans->metode_pembayaran == 'OVO') echo "selected" ?> value="OVO">OVO</option>
+                                                <option <?php if ($trans->metode_pembayaran == 'Shopee Pay') echo "selected" ?> value="Shopee Pay">Shopee Pay</option>
                                             </select>
                                         <?php } else { ?>
                                             <p>Metode Pembayaran: <?= $trans->metode_pembayaran; ?></p>

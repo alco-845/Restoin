@@ -68,6 +68,7 @@ class Keranjang extends CI_Controller
     {
         $id_resto = $this->session->id_resto;
         $id_meja = $this->session->id_meja;
+        $metode = $this->input->post('metode');
         $total = 0;
 
         $penjualan = array(
@@ -75,7 +76,7 @@ class Keranjang extends CI_Controller
             'id_meja' => $id_meja,
             'pelanggan' => $this->session->nama,
             'tanggal' => date('Y-m-d'),
-            'metode_pembayaran' => "Belum bayar",
+            'metode_pembayaran' => $metode,
             'status' => "Baru Order"
         );
 

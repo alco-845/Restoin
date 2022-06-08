@@ -51,23 +51,42 @@
                                                 $total = $total + $item['subtotal'];
 
                                             endforeach; ?>
-                                            <tr>
-                                                <td colspan="5">
-                                                    <h3>Total :</h3>
-                                                </td>
 
-                                                <td style="text-align: center;">
-                                                    <h4>Rp. <?= $total ?></h4>
-                                                </td>
-                                            </tr>
+                                            <form action="<?= base_url('pemesanan/keranjang/checkout') ?>" method="post">
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <h4>Metode Pembayaran :</h4>
+                                                    </td>
 
-                                            <tr>
-                                                <td colspan="6"><?php if (!empty($total)) { ?>
-                                        <div class="text-end mt-4" onclick="javasript: return confirm('Anda yakin ingin melakukan checkout? Pastikan keranjang anda sudah benar')"><?= anchor('pemesanan/keranjang/checkout', '<div class="btn btn-info btn-m">Checkout</div>') ?></div>
-                                    <?php } ?></td>
-                                            </tr>
-                                        <?php } ?>
-                                    </table>                                    
+                                                    <td style="text-align: center;">
+                                                        <select name="metode" class="form-control">
+                                                            <option value="Tunai">Tunai</option>
+                                                            <option value="Bank Transfer">Bank Transfer</option>
+                                                            <option value="OVO">OVO</option>
+                                                            <option value="Shopee Pay">Shopee Pay</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <h3>Total :</h3>
+                                                    </td>
+
+                                                    <td style="text-align: center;">
+                                                        <h4>Rp. <?= $total ?></h4>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="6"><?php if (!empty($total)) { ?>
+                                                            <div class="text-end mt-4" onclick="javasript: return confirm('Anda yakin ingin melakukan checkout? Pastikan keranjang anda sudah benar')"><?= anchor('pemesanan/keranjang/checkout', '<input type="submit" name="submit" value="Checkout" class="btn btn-info btn-m">') ?></div>
+                                                        <?php } ?>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                            </form>
+                                    </table>
 
                                 </div>
 
