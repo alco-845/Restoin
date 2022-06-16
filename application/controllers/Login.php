@@ -33,7 +33,7 @@ class Login extends CI_Controller
 		$getPegawai = $this->model_admin->get_one('pegawai', $username, 'username');
 
 		if ($authAdmin == TRUE || $authPegawai == TRUE) {
-			if ($getAdmin->level === "Master") {
+			if (isset($getAdmin->level) && $getAdmin->level == "Master") {
 				$this->session->set_userdata(
 					array(
 						'id_admin' => $getAdmin->id_admin,
@@ -42,7 +42,7 @@ class Login extends CI_Controller
 					)
 				);
 				redirect("super_admin/dashboard");
-			} else if ($getAdmin->level === "Admin") {
+			} else if (isset($getAdmin->level) && $getAdmin->level == "Admin") {
 				$this->session->set_userdata(
 					array(
 						'id_pemilik' => $getAdmin->id_admin,
@@ -52,7 +52,7 @@ class Login extends CI_Controller
 					)
 				);
 				redirect("pemilik/dashboard");
-			} else if ($getPegawai->username === $username) {
+			} else if ($getPegawai->username == $username) {
 				$this->session->set_userdata(
 					array(
 						'id_pegawai' => $getPegawai->id_pegawai,
@@ -64,7 +64,7 @@ class Login extends CI_Controller
 				);
 				redirect("pegawai/dashboard");
 			}
-		} else if ($getAdmin->aktif == '0' || $getPegawai->aktif == '0') {
+		} else if (($authAdmin == TRUE || $authPegawai == TRUE) && ($getAdmin->aktif == '0' || $getPegawai->aktif == '0')) {
 			$this->session->set_flashdata(
 				'message',
 				'<div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="height: 60px;">
